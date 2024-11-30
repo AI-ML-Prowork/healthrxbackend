@@ -1,0 +1,14 @@
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
+*pyc
+.idea/
+
+.env
+venv
+.ruff_cache
+# Ignore system files
+.DS_Store
+thumbs.db
+crm_env
+
