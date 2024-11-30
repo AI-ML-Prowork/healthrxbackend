@@ -21,10 +21,9 @@ load_dotenv(dotenv_path=".env")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-
+SECRET_KEY = "django-insecure-uw&@rb%7rh^%_5m0-@!if#)ox)&s8d@9!f2w*jz2#ylnaatq(2"
 ALLOWED_HOSTS = ['.vercel.app', "*"]
-DEBUG = os.getenv("DEBUG")
+DEBUG = False
 
 # Application definition
 
@@ -108,11 +107,11 @@ ASGI_APPLICATION = "saas_admin.asgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django_tenants.postgresql_backend",
-        "NAME": os.getenv("DATABASE_NAME"),
-        "USER": os.getenv("DATABASE_USER"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"), 
-        "HOST": os.getenv("DATABASE_HOST"),
-        "PORT": os.getenv("DATABASE_PORT"),
+        "NAME": 'postgres',
+        "USER": 'postgres.jjlyuzknntrxdjvvdkfx',
+        "PASSWORD": 'M4eFbG9.gr_s2jE', 
+        "HOST": 'aws-0-ap-south-1.pooler.supabase.com',
+        "PORT": 6543,
     }
 }
 
@@ -211,12 +210,12 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(os.getenv("REDIS_HOST"), 6379)],
+            "hosts": [("localhost", 6379)],
         },
     },
 }
 ELASTICSEARCH_DSL = {
     "default": {
-        "hosts": f"http://{os.getenv('ELASTIC_SEARCH_HOST')}:9200",
+        "hosts": f"http://localhost:9200",
     }
 }
