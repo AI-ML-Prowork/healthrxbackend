@@ -6,7 +6,7 @@ Signal Handlers:
     - Connected to the `post_migrate` signal, which is emitted after migrations have been applied.
     - Checks if a default tenant with the schema name "public" exists.
     - If the default tenant does not exist, creates it with the name "Public".
-    - Also creates a primary domain entry associated with this tenant, with the domain set to the production host.
+    - Also creates a primary domain entry associated with this tenant, with the domain set to "localhost".
 
 Dependencies:
 - `post_migrate` signal from `django.db.models.signals` to execute logic after database migrations.
@@ -22,7 +22,6 @@ from .models import Tenant, Domain
 
 # from search.documents import BlogDocument
 
-PRODUCTION_DOMAIN = "healthrxbackend.onrender.com"
 
 @receiver(post_migrate)
 def create_default_tenant(sender, **kwargs):
@@ -32,6 +31,6 @@ def create_default_tenant(sender, **kwargs):
         tenant.save()
 
         domain = Domain.objects.create(
-            domain=PRODUCTION_DOMAIN, tenant=tenant, is_primary=True
+            domain="localhost", tenant=tenant, is_primary=True
         )
         domain.save()
