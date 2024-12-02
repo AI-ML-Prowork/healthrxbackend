@@ -21,9 +21,10 @@ load_dotenv(dotenv_path=".env")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-uw&@rb%7rh^%_5m0-@!if#)ox)&s8d@9!f2w*jz2#ylnaatq(2"
-ALLOWED_HOSTS = ["*"]
-DEBUG = False
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+ALLOWED_HOSTS = ['.vercel.app', "*"]
+DEBUG = os.getenv("DEBUG")
 
 # Application definition
 
@@ -107,11 +108,11 @@ ASGI_APPLICATION = "saas_admin.asgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django_tenants.postgresql_backend",
-        "NAME": 'postgres',
-        "USER": 'postgres.jjlyuzknntrxdjvvdkfx',
-        "PASSWORD": 'M4eFbG9.gr_s2jE', 
-        "HOST": 'aws-0-ap-south-1.pooler.supabase.com',
-        "PORT": 6543,
+        "NAME": os.getenv("DATABASE_NAME"),
+        "USER": os.getenv("DATABASE_USER"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"), 
+        "HOST": os.getenv("DATABASE_HOST"),
+        "PORT": os.getenv("DATABASE_PORT"),
     }
 }
 
@@ -187,9 +188,10 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "debug.log"),
+            "filename": os.path.join( "/tmp/debug.log"),
             "formatter": "verbose",
         },
+        
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
@@ -210,12 +212,12 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],
+            "hosts": [(os.getenv("REDIS_HOST"), 6379)],
         },
     },
 }
 ELASTICSEARCH_DSL = {
     "default": {
-        "hosts": f"http://localhost:9200",
+        "hosts": f"http://{os.getenv('ELASTIC_SEARCH_HOST')}:9200",
     }
 }

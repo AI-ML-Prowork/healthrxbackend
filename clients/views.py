@@ -79,6 +79,7 @@ from drf_yasg import openapi
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from search.documents import BlogDocument
+from .models import Tenant
 
 
 logger = logging.getLogger(__name__)
@@ -326,6 +327,7 @@ class TenantView(APIView):
     def get(self, request):
         logger.info("Getting all user for tenant admin!")
         users = UserProfile.objects.all()
+        users = Tenant.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
