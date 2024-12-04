@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import Role, Employee
-from .serializers import RoleSerializer, EmployeeSerializer, EmployeeCreateUpdateSerializer
+from .serializers import RoleSerializer, EmployeeSerializer, RoleCreateUpdateSerializer, EmployeeCreateUpdateSerializer
 from clients.custom_permissions import IsTenantAdminOrIsUserPartOfTenant
 import logging
 from rest_framework.exceptions import ValidationError
@@ -12,7 +12,7 @@ from django.db import IntegrityError
 logger = logging.getLogger(__name__)
 
 class RoleView(APIView):
-    permission_classes = [IsAuthenticated, IsTenantAdminOrIsUserPartOfTenant]
+    # permission_classes = [IsAuthenticated, IsTenantAdminOrIsUserPartOfTenant]
 
     def get(self, request):
         roles = Role.objects.filter(tenant=request.tenant)
@@ -25,6 +25,44 @@ class RoleView(APIView):
             serializer.save(tenant=request.tenant)
             return Response({"msg": "Role added successfully!"}, status=status.HTTP_201_CREATED)
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RoleManagementView(APIView):
+    # permission_classes = [IsAuthenticated, IsTenantAdminOrIsUserPartOfTenant]
+
+    def get(self, request, role_id):
+        try:
+            role = Role.objects.get(id=role_id, tenant=request.tenant)
+            serializer = RoleSerializer(role)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        except Role.DoesNotExist:
+            return Response({"msg": "Role not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request):
+        serializer = RoleCreateUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(tenant=request.tenant)
+            return Response({"msg": "Role added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, role_id):
+        try:
+            role = Role.objects.get(id=role_id, tenant=request.tenant)
+            serializer = RoleCreateUpdateSerializer(role, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"msg": "Role updated successfully!"}, status=status.HTTP_200_OK)
+            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        except Role.DoesNotExist:
+            return Response({"msg": "Role not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, role_id):
+        try:
+            role = Role.objects.get(id=role_id, tenant=request.tenant)
+            role.delete()
+            return Response({"msg": "Role deleted successfully!"}, status=status.HTTP_200_OK)
+        except Role.DoesNotExist:
+            return Response({"msg": "Role not found."}, status=status.HTTP_404_NOT_FOUND)
 
 
 class EmployeeListView(APIView):
@@ -47,7 +85,6 @@ class EmployeeListView(APIView):
             except IntegrityError as e:
                 raise ValidationError({"error": str(e)})
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class EmployeeManagementView(APIView):
