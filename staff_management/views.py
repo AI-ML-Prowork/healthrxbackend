@@ -70,7 +70,14 @@ class EmployeeListView(APIView):
 
     # GET: List all employees for the tenant
     def get(self, request):
-        employees = Employee.objects.filter(tenant=request.tenant)
+        role_id = request.query_params.get("role")  # Get 'role' query parameter from URL
+        if role_id:
+            # Filter employees with the specific role ID
+            employees = Employee.objects.filter(tenant=request.tenant, role__id=role_id)
+        else:
+            # Fetch all employees if no 'role' parameter is provided
+            employees = Employee.objects.filter(tenant=request.tenant)
+        
         serializer = EmployeeSerializer(employees, many=True)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 

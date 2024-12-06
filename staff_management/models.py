@@ -23,7 +23,7 @@ class Employee(models.Model):
     ]
     
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="employee_profile")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name="employee_profile")
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=255)
     employee_id = models.CharField(max_length=100, unique=True, null=True)

@@ -1,10 +1,13 @@
-from .models import Appointment  # Import the Appointment model
-from ambulance.serializers import AmbulanceSerializer,DriverSerializer
+from .models import Appointment 
+from rest_framework import serializers
+
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    ambulance_details = AmbulanceSerializer(read_only=True, source='ambulance')
-    driver_details = DriverSerializer(read_only=True, source='driver')
+    class Meta:
+        model = Appointment
+        fields = "__all__"
 
+class AppointmentCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         fields = "__all__"

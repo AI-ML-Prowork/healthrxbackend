@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import CustomUser, Tenant
+from staff_management.models import Employee
 
 
 class Patient(models.Model):
@@ -30,14 +31,16 @@ class Patient(models.Model):
         ("Not Specified", "Not Specified"),
     ]
     
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=True) 
     patient_id = models.CharField(max_length=100, unique=True, null=True)
     name = models.CharField(max_length=100, default="test")
     phone = models.CharField(max_length=15, unique=True, null=True)
     guardian_name = models.CharField(max_length=50, null=True)
+    guardian_phone = models.CharField(max_length=15, null=True)
     age = models.CharField(max_length=3, default="0")
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES, default="Not Specified")
+    doctor = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default="A+")
     marital_status = models.CharField(max_length=15, choices=MARITAL_STATUS_CHOICES, default="Not Specified")
     image = models.TextField(blank=True, null=True)
