@@ -91,11 +91,13 @@ This file sets up the routing for the Django application, including endpoints fo
 
 from django.contrib import admin
 from .views import CheckTenant, TenantRegister
+from .views import *
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.urls import path, re_path
 from clients.views import TenantView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 schema_view = get_schema_view(
     openapi.Info(title="Tenant API",default_version="v1",description="API documentation for Multi-tenant Project",),
@@ -104,7 +106,16 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    # for the super admin(saas login)
     path("admin/", admin.site.urls),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users/', CustomUserListView.as_view(), name='custom-user-list'),
+    path('domains/', DomainListView.as_view(), name='domain-list'),
+    path('tenants/', TenantListView.as_view(), name='tenant-list'),
+
+
+
     path("tenant", TenantRegister.as_view(), name="tenant-register"),
     path("check-tenant", CheckTenant.as_view(), name="check-tenant"),
     re_path(r"^swagger(?P<format>\.json|\.yaml)$",schema_view.without_ui(cache_timeout=0),name="schema-json"),

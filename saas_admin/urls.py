@@ -48,3 +48,11 @@ urlpatterns = [
     path('api/tpa-insurance/', include('tpa_insurance.urls')),
     path('api/visitor-book/', include('visitor_book.urls')),
 ]
+
+
+# urlpatterns += [
+#     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+#     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+# ]
+
+

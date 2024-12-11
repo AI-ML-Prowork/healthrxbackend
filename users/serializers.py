@@ -83,3 +83,26 @@ class TenantRegisterSerializer(serializers.Serializer):
             "username": validated_data["username"],
             "user": user,
         }
+
+
+# for super admin (saas login)
+from rest_framework import serializers
+from .models import CustomUser, Domain, Tenant
+
+
+class TenantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tenant
+        fields = "__all__"
+
+
+class DomainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Domain
+        fields = "__all__"
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ["id", "email", "username", "is_tenant_admin", "is_staff", "is_active", "date_joined", "tenant"]

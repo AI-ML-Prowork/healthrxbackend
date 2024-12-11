@@ -47,6 +47,42 @@ from rest_framework.permissions import IsAdminUser
 from search.documents import BlogDocument
 
 
+# for the super admin (saas login)
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+from .models import CustomUser, Domain, Tenant
+from .serializers import CustomUserSerializer, DomainSerializer, TenantSerializer
+
+class IsSuperAdmin(permissions.BasePermission):
+    """
+    Custom permission to allow access only to superadmins.
+    """
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.is_superuser
+
+
+# List and create tenants
+class TenantListView(generics.ListCreateAPIView):
+    queryset = Tenant.objects.all()
+    serializer_class = TenantSerializer
+    permission_classes = [IsSuperAdmin]
+
+
+# List and create domains
+class DomainListView(generics.ListCreateAPIView):
+    queryset = Domain.objects.all()
+    serializer_class = DomainSerializer
+    permission_classes = [IsSuperAdmin]
+
+
+# List and create custom users
+class CustomUserListView(generics.ListCreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsSuperAdmin]
+
+
+
 def create_index_for_tenant(tenant_name):
     """Create an Elasticsearch index for a new tenant."""
     blog_document = BlogDocument.for_tenant(tenant_name)

@@ -41,6 +41,7 @@ SHARED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    'rest_framework_simplejwt',
     "drf_yasg",
     "notifications",
     "channels",
@@ -134,8 +135,13 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
+
 AUTH_USER_MODEL = "users.CustomUser"
-AUTHENTICATION_BACKENDS = ["users.auth_backends.TenantEmailBackend"]
+AUTHENTICATION_BACKENDS = [
+    "users.auth_backends.TenantEmailBackend", # Your custom backend
+    "django.contrib.auth.backends.ModelBackend", # Default backend
+    
+    ]
 SILENCED_SYSTEM_CHECKS = ["auth.W004"]
 
 STATIC_URL = "static/"
