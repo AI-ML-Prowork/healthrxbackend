@@ -38,9 +38,6 @@ Dependencies:
 
 from django.http import JsonResponse
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import TenantRegisterSerializer
 from .models import Tenant
 import logging
 from rest_framework.permissions import IsAdminUser
@@ -48,14 +45,14 @@ from search.documents import BlogDocument
 
 
 # for the super admin (saas login)
-from rest_framework import generics, permissions, status
+from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import CustomUser, Domain, Tenant
-from .serializers import CustomUserSerializer, DomainSerializer, TenantSerializer
+from .serializers import CustomUserSerializer, DomainSerializer, TenantSerializer, TenantRegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.exceptions import AuthenticationFailed
-from .models import CustomUser
+from .permissions import IsGlobalSuperAdmin
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -74,7 +71,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 
-from .permissions import IsGlobalSuperAdmin
 
 class TenantListView(generics.ListCreateAPIView):
     queryset = Tenant.objects.all()
@@ -92,35 +88,11 @@ class CustomUserListView(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = [IsGlobalSuperAdmin]
+# for the super admin (saas login) end
 
 
-# class IsSuperAdmin(permissions.BasePermission):
-#     """
-#     Custom permission to allow access only to superadmins.
-#     """
-#     def has_permission(self, request, view):
-#         return request.user.is_authenticated and request.user.is_superuser
 
 
-# # List and create tenants
-# class TenantListView(generics.ListCreateAPIView):
-#     queryset = Tenant.objects.all()
-#     serializer_class = TenantSerializer
-#     permission_classes = [IsSuperAdmin]
-
-
-# # List and create domains
-# class DomainListView(generics.ListCreateAPIView):
-#     queryset = Domain.objects.all()
-#     serializer_class = DomainSerializer
-#     permission_classes = [IsSuperAdmin]
-
-
-# # List and create custom users
-# class CustomUserListView(generics.ListCreateAPIView):
-#     queryset = CustomUser.objects.all()
-#     serializer_class = CustomUserSerializer
-#     permission_classes = [IsSuperAdmin]
 
 
 
