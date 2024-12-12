@@ -52,34 +52,75 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import CustomUser, Domain, Tenant
 from .serializers import CustomUserSerializer, DomainSerializer, TenantSerializer
-
-class IsSuperAdmin(permissions.BasePermission):
-    """
-    Custom permission to allow access only to superadmins.
-    """
-    def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.is_superuser
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import AuthenticationFailed
+from .models import CustomUser
 
 
-# List and create tenants
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+
+        # Ensure the user is a global superuser
+        if not user.is_superuser or user.tenant is not None:
+            raise AuthenticationFailed("Only global superusers are allowed to generate tokens.")
+
+        return data
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
+
+from .permissions import IsGlobalSuperAdmin
+
 class TenantListView(generics.ListCreateAPIView):
     queryset = Tenant.objects.all()
     serializer_class = TenantSerializer
-    permission_classes = [IsSuperAdmin]
+    permission_classes = [IsGlobalSuperAdmin]
 
 
-# List and create domains
 class DomainListView(generics.ListCreateAPIView):
     queryset = Domain.objects.all()
     serializer_class = DomainSerializer
-    permission_classes = [IsSuperAdmin]
+    permission_classes = [IsGlobalSuperAdmin]
 
 
-# List and create custom users
 class CustomUserListView(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = [IsSuperAdmin]
+    permission_classes = [IsGlobalSuperAdmin]
+
+
+# class IsSuperAdmin(permissions.BasePermission):
+#     """
+#     Custom permission to allow access only to superadmins.
+#     """
+#     def has_permission(self, request, view):
+#         return request.user.is_authenticated and request.user.is_superuser
+
+
+# # List and create tenants
+# class TenantListView(generics.ListCreateAPIView):
+#     queryset = Tenant.objects.all()
+#     serializer_class = TenantSerializer
+#     permission_classes = [IsSuperAdmin]
+
+
+# # List and create domains
+# class DomainListView(generics.ListCreateAPIView):
+#     queryset = Domain.objects.all()
+#     serializer_class = DomainSerializer
+#     permission_classes = [IsSuperAdmin]
+
+
+# # List and create custom users
+# class CustomUserListView(generics.ListCreateAPIView):
+#     queryset = CustomUser.objects.all()
+#     serializer_class = CustomUserSerializer
+#     permission_classes = [IsSuperAdmin]
 
 
 
