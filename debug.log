@@ -49,3 +49,16 @@ INFO 2024-12-06 09:01:09,601 views Checking if tenant admin is trying to login!
 INFO 2024-12-06 09:01:09,761 views tenant admin logged in!
 INFO 2024-12-06 12:07:17,139 views Checking if tenant admin is trying to login!
 INFO 2024-12-06 12:07:17,593 views tenant admin logged in!
+INFO 2024-12-12 11:51:29,720 views Checking if tenant admin is trying to login!
+INFO 2024-12-12 11:51:29,877 views tenant admin logged in!
+INFO 2024-12-12 12:05:38,864 views Checking if tenant admin is trying to login!
+INFO 2024-12-12 12:05:38,976 views tenant admin logged in!
+CRITICAL 2024-12-12 12:06:02,260 views Authentication failed!
+INFO 2024-12-12 12:32:06,702 views Checking if tenant admin is trying to login!
+INFO 2024-12-12 12:32:06,819 views tenant admin logged in!
+INFO 2024-12-12 19:56:37,619 views Checking if tenant admin is trying to login!
+INFO 2024-12-12 19:56:37,737 views tenant admin logged in!
+INFO 2024-12-13 21:52:55,666 views Checking if tenant admin is trying to login!
+INFO 2024-12-13 21:52:56,303 views tenant admin logged in!
+INFO 2024-12-14 11:27:25,618 views Checking if tenant admin is trying to login!
+INFO 2024-12-14 11:27:25,765 views tenant admin logged in!

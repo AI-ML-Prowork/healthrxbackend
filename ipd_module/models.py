@@ -75,6 +75,7 @@ class IPDBill(models.Model):
     medicine_category = models.CharField(max_length=50, choices=MEDICINE_CHOICES, default="Tablet")
     medicine_name = models.CharField(max_length=10, blank=True, null=True)
     cost = models.CharField(max_length=10, blank=True, null=True)
+    qty = models.CharField(max_length=10, blank=True, null=True)
     amount = models.CharField(max_length=10, blank=True, null=True)
     tax = models.CharField(max_length=10, blank=True, null=True)
     tax_amount = models.CharField(max_length=10, blank=True, null=True)

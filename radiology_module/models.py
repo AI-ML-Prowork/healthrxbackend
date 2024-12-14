@@ -17,8 +17,8 @@ class Radiology(models.Model):
     report_time = models.CharField(max_length=10, blank=True, null=True)
     charge_name = models.CharField(max_length=10, blank=True, null=True)
     charge_amount = models.CharField(max_length=10, blank=True, null=True)
-    tax = models.TextField(blank=True, null=True)
-    total_amount = models.TextField(blank=True, null=True)
+    tax = models.CharField(max_length=10,blank=True, null=True)
+    total_amount = models.CharField(max_length=10,blank=True, null=True)
     created_at = models.DateField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
 

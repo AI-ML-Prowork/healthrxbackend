@@ -107,12 +107,12 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # for the super admin(saas login)
-    path("admin/", admin.site.urls),
-    path('api/superadmin-login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/superadmin/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('users/', CustomUserListView.as_view(), name='custom-user-list'),
-    path('domains/', DomainListView.as_view(), name='domain-list'),
-    path('tenants/', TenantListView.as_view(), name='tenant-list'),
+    path("admin", admin.site.urls),
+    path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users', CustomUserListView.as_view(), name='custom-user-list'),
+    path('domains', DomainListView.as_view(), name='domain-list'),
+    path('tenants', TenantListView.as_view(), name='tenant-list'),
 
 
 

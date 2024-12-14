@@ -44,10 +44,10 @@ class PathologyBill(models.Model):
     report_time = models.CharField(max_length=10, blank=True, null=True)
     amount = models.CharField(max_length=10, blank=True, null=True)
     discount = models.CharField(max_length=10, blank=True, null=True)
-    tax = models.TextField(blank=True, null=True)
-    net_amount = models.TextField(blank=True, null=True)
+    tax = models.CharField(max_length=10,blank=True, null=True)
+    net_amount = models.CharField(max_length=10,blank=True, null=True)
     payment_mode = models.CharField(max_length=50, choices=PAYMENT_CHOICES, default="Cash")
-    payment_amount = models.TextField(blank=True, null=True)
+    payment_amount = models.CharField(max_length=10,blank=True, null=True)
     created_at = models.DateField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
 
