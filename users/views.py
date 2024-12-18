@@ -63,13 +63,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Ensure the user is a global superuser
         if not user.is_superuser or user.tenant is not None:
             raise AuthenticationFailed("Only global superusers are allowed to generate tokens.")
-
         return data
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
-
-
 
 
 class TenantListView(generics.ListCreateAPIView):
