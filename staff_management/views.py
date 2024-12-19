@@ -22,7 +22,7 @@ class RoleView(APIView):
     def post(self, request):
         serializer = RoleSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(tenant=request.tenant)
+            serializer.save()
             return Response({"msg": "Role added successfully!"}, status=status.HTTP_201_CREATED)
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -84,14 +84,17 @@ class EmployeeListView(APIView):
     # POST: Add a new employee
     def post(self, request):
         serializer = EmployeeCreateUpdateSerializer(data=request.data)
-        if serializer.is_valid():
-            try:
-                # Save employee with user and tenant
-                serializer.save(user=request.user, tenant=request.tenant)
-                return Response({"msg": "Employee added successfully!"}, status=status.HTTP_201_CREATED)
-            except IntegrityError as e:
-                raise ValidationError({"error": str(e)})
-        return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            if serializer.is_valid(raise_exception=True):
+                try:
+                    # Save employee with user and tenant
+                    serializer.save()
+                    return Response({"msg": "Employee added successfully!"}, status=status.HTTP_201_CREATED)
+                except IntegrityError as e:
+                    raise ValidationError({"error": str(e)})
+            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EmployeeManagementView(APIView):

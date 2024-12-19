@@ -21,6 +21,7 @@ load_dotenv(dotenv_path=".env")
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+# SECRET_KEY = "sdsdjsdjsdnjdsn"
 
 ALLOWED_HOSTS = ["*"]
 DEBUG = os.getenv("DEBUG")
@@ -113,6 +114,13 @@ DATABASES = {
         "PASSWORD": os.getenv("DATABASE_PASSWORD"), 
         "HOST": os.getenv("DATABASE_HOST"),
         "PORT": os.getenv("DATABASE_PORT"),
+        # 'NAME': 'health',
+        # 'USER': 'jatin',
+        # 'PASSWORD': 'jatin1234',
+        # 'HOST': 'localhost',  # Or the IP of your PostgreSQL server
+        # 'PORT': '5432',
+        'ATOMIC_REQUESTS': True
+        
     }
 }
 

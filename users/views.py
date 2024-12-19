@@ -127,7 +127,7 @@ class TenantRegister(APIView):
                     "username": data["user"].username,
                 },
             }
-            create_index_for_tenant(data["username"])
+            # create_index_for_tenant(data["username"])
             return Response(response_data, status=status.HTTP_201_CREATED)
         logger.error("Something went wrong!")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

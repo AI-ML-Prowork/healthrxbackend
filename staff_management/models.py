@@ -2,7 +2,7 @@ from django.db import models
 from users.models import CustomUser, Tenant, CustomUserManager
 
 class Role(models.Model):
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=True)
+    # tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -22,13 +22,13 @@ class Employee(models.Model):
         ("Inactive", "Inactive"),
     ]
     
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
+    # tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name="employee_profile")
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=255)
     employee_id = models.CharField(max_length=100, unique=True, null=True)
-    email = models.EmailField(unique=True, null=True)
+    # email = models.EmailField(unique=True, null=True)
     password = models.CharField(max_length=50, null=True)
     dob = models.DateField(default="2024-01-01")
     gender = models.CharField(max_length=50, choices=GENDER_CHOICES, default="Not Specified")

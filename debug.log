@@ -62,3 +62,8 @@ INFO 2024-12-13 21:52:55,666 views Checking if tenant admin is trying to login!
 INFO 2024-12-13 21:52:56,303 views tenant admin logged in!
 INFO 2024-12-14 11:27:25,618 views Checking if tenant admin is trying to login!
 INFO 2024-12-14 11:27:25,765 views tenant admin logged in!
+INFO 2024-12-18 17:50:24,419 views Checking if tenant admin is trying to login!
+INFO 2024-12-18 17:50:24,422 views tenant admin logged in!
+INFO 2024-12-18 18:01:19,908 views user created!
+INFO 2024-12-18 18:10:48,777 views tenant user logged in!
+INFO 2024-12-18 18:13:25,056 views tenant user logged in!
